@@ -19,7 +19,14 @@ import { pageNotFoundExceptionHandler } from "./config/page-not-found.exception"
 const app = express();
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin:
+      process.env.NODE_ENV === "production"
+        ? [
+            "https://your-frontend-domain.vercel.app",
+            "https://your-custom-domain.com",
+          ]
+        : ["http://localhost:5173", "http://localhost:3000"],
+    credentials: true,
   })
 );
 app.use(express.json());
